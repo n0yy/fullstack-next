@@ -6,9 +6,14 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "knex": "knex"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^8.5.1",
+    "knex": "^2.2.0",
+    "mysql": "^2.18.1",
     "next": "12.2.5",
     "react": "18.2.0",
     "react-dom": "18.2.0"
