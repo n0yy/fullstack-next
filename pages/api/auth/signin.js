@@ -1,6 +1,6 @@
 import db from "../../../utils/db";
 import bcrypt from "bcryptjs";
-import { jwt } from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export default async function handler(req, res) {
   if (req.method !== "POST") return res.status(403).end();
@@ -10,10 +10,17 @@ export default async function handler(req, res) {
   // Validation Password
   let decoded = bcrypt.compareSync(password, dataUser.password);
 
-  // TODO: Generate token
-
   if (!decoded)
     return res.status(403).json({ message: "Email or Password wrong!" });
 
-  res.status(200).json({ message: "Login Sucessfully" });
+  // TODO: Generate token | JWT
+  //   "Aku sayang Ibu" must be secret, use .env for exam
+  const token = jwt.sign(
+    { data: { id: dataUser.id, fullname: dataUser.fullName, email } },
+    "Aku Sayang Ibu",
+    {
+      expiresIn: "7d",
+    }
+  );
+  res.status(200).json({ message: "Login Sucessfully", token });
 }
