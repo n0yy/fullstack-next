@@ -10,15 +10,24 @@ export default async function handler(req, res) {
   let passwordHash = bcrypt.hashSync(password, salt);
 
   try {
-    const user = await db("users").insert({
+    // Validation
+    if (password.length < 8)
+      return res
+        .status(403)
+        .json({ message: "Password length min. 8 character" });
+
+    await db("users").insert({
       fullName,
       email,
       password: passwordHash,
     });
-    // Get User
-    const getUser = await db("users").where({ id: user }).first();
-    res.status(200).json({ message: "Sign Up Successfully!", data: getUser });
+
+    res.status(200).json({ message: "Sign Up Successfully!" });
   } catch (err) {
-    res.status(403).json({ message: "Email already exist!" });
+    // Error Handling
+    if (err.code === "ER_DUP_ENTRY")
+      return res.status(403).json({ message: "Email already exist!" });
+
+    res.status(403).json({ message: "Sign up unsuccessfully!" });
   }
 }
