@@ -22,7 +22,7 @@ export default async function handler(req, res) {
       password: passwordHash,
     });
 
-    res.status(200).json({ message: "Sign Up Successfully!" });
+    res.status(200).json({ code: 200, message: "Sign Up Successfully!" });
   } catch (err) {
     // Error Handling
     if (err.code === "ER_DUP_ENTRY")
