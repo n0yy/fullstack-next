@@ -2,12 +2,12 @@ import db from "../../../utils/db";
 import authorization from "../../../utils/middlewares/authorization";
 
 export default async function handler(req, res) {
-  if (req.method !== "POST") return res.status(405).end();
+  if (req.method !== "POST") return res.status(403).json({ message: "Failed" });
 
   const { title, body } = req.body;
 
   const verify = await authorization(req, res);
-  if (!verify) return res.status(403).end();
+  if (!verify) return res.status(405).end();
 
   const createPost = await db("posts").insert({
     title,
