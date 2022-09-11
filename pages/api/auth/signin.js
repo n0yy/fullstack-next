@@ -17,10 +17,9 @@ export default async function handler(req, res) {
   if (!decoded) return res.status(403).json({ message: "Password wrong!" });
 
   // TODO: Generate token | JWT
-  //   "Aku sayang Ibu" must be secret, use .env for exam
   const token = jwt.sign(
     { data: { id: dataUser.id, fullname: dataUser.fullName, email } },
-    "Aku Sayang Ibu"
+    process.env.SECRET_KEY
   );
   res.status(200).json({
     message: "Login Sucessfully",
